@@ -1,16 +1,20 @@
 package de.yetihafen.pommesmaker.pommes;
 
+import net.minecraft.world.level.block.entity.TileEntityFurnace;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.EndPortalFrame;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 
-public class PommesMaker {
+public class PommesMaker implements InventoryHolder {
 
     private static final ArrayList<PommesMaker> makers = new ArrayList<>();
     private static final ArrayList<PommesMaker> activeMakers = new ArrayList<>();
@@ -20,12 +24,15 @@ public class PommesMaker {
     private final Block block;
     private Status status;
     private long activeSince = -1;
+    private long alarmSoundPlayedSince = -1;
+    private final PommesMakerUI ui;
 
     private PommesMaker(Block block) {
         if(!(block.getBlockData() instanceof EndPortalFrame)) throw new IllegalArgumentException("Block is no EndPortalFrame");
         this.block = block;
         this.location = block.getLocation();
         this.above = location.clone().add(0,1,0);
+        this.ui = new PommesMakerUI(this);
     }
 
     private PommesMaker(Block b, Status status) {
@@ -41,7 +48,13 @@ public class PommesMaker {
         block.setType(Material.END_PORTAL_FRAME);
         block.setBlockData(data);
         location.getWorld().spawnParticle(Particle.FLAME, above,300, 0.5, 0.5, 0.5);
-        location.getWorld().playSound(above,"serversound.alarm", 8,10);
+
+        // check for alarm
+        if((System.currentTimeMillis() - 30 * 1000) > alarmSoundPlayedSince) {
+            // play sound
+            location.getWorld().playSound(above,"serversound.alarm", 1,1);
+            alarmSoundPlayedSince = System.currentTimeMillis();
+        }
         above.getBlock().setType(Material.FIRE);
         disable();
         this.status = Status.BROKEN;
@@ -128,6 +141,16 @@ public class PommesMaker {
 
     public static ArrayList<PommesMaker> getMakers() {
         return makers;
+    }
+
+    public PommesMakerUI getUi() {
+        return ui;
+    }
+
+    @NotNull
+    @Override
+    public Inventory getInventory() {
+        return ui.getInv();
     }
 
     public enum Status {

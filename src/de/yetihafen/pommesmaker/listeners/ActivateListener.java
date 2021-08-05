@@ -1,18 +1,24 @@
 package de.yetihafen.pommesmaker.listeners;
 
+import de.yetihafen.pommesmaker.main.Main;
 import de.yetihafen.pommesmaker.pommes.PommesMaker;
+import de.yetihafen.pommesmaker.pommes.PommesMakerUI;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.FurnaceInventory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,13 +70,38 @@ public class ActivateListener implements Listener {
         if(e.getHand() == EquipmentSlot.OFF_HAND) return;
         if(e.getClickedBlock().getType() != Material.END_PORTAL_FRAME) return;
 
-        // switch status
-        PommesMaker maker = PommesMaker.getFromLocation(e.getClickedBlock().getLocation());
-        if(maker.isActive())
-            maker.disable();
-        else
-            maker.enable();
+        e.setCancelled(true);
 
+        PommesMaker maker = PommesMaker.getFromLocation(e.getClickedBlock().getLocation());
+
+
+
+        if(maker.getStatus() == PommesMaker.Status.BROKEN) return;
+
+        e.getPlayer().openInventory(maker.getUi().getInv());
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void triggerPommesMaker(InventoryClickEvent e) {
+        Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
+            if(!e.getView().getTitle().equals("§6Pommes Maker")) return;
+
+            PommesMaker maker = (PommesMaker) e.getView().getTopInventory().getHolder();
+            FurnaceInventory inv = (FurnaceInventory) e.getView().getTopInventory();
+
+            if(inv.getFuel() == null || inv.getFuel().getType() != Material.LAVA_BUCKET) return;
+
+            if(inv.getSmelting() == null || inv.getSmelting().getType() != Material.POTATO) return;
+
+            System.out.println(inv.getClass().getName());
+
+
+            e.getWhoClicked().sendMessage(e.getSlotType().toString());
+        }, 1);
+    }
+    @EventHandler
+    public void test(InventoryMoveItemEvent e) {
+        Bukkit.broadcastMessage("event");
     }
 
 

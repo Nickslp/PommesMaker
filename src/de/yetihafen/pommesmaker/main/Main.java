@@ -8,15 +8,16 @@ import org.bukkit.Particle;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
 
 public class Main extends JavaPlugin {
 
 
     ActivateListener l;
+    private static Main plugin;
 
     @Override
     public void onEnable() {
+        plugin = this;
         PluginManager pm = Bukkit.getPluginManager();
         l = new ActivateListener();
         pm.registerEvents(l, this);
@@ -25,7 +26,7 @@ public class Main extends JavaPlugin {
                 Location l = m.getLocation();
                 l.getWorld().spawnParticle(Particle.DRIPPING_HONEY, l.getBlockX() + 0.5, l.getBlockY() + 0.3, l.getBlockZ() + 0.5, 11, 0.2, 0F, 0.2);
             }
-        }, 0, 0);
+        }, 0, 4);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for(int i = 0; i < PommesMaker.getActiveMakers().size(); i++) {
                 PommesMaker m = PommesMaker.getActiveMakers().get(i);
@@ -38,5 +39,9 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable() {
 
+    }
+
+    public static Main getPlugin() {
+        return plugin;
     }
 }
