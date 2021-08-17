@@ -81,28 +81,7 @@ public class ActivateListener implements Listener {
         e.getPlayer().openInventory(maker.getUi().getInv());
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void triggerPommesMaker(InventoryClickEvent e) {
-        Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
-            if(!e.getView().getTitle().equals("§6Pommes Maker")) return;
 
-            PommesMaker maker = (PommesMaker) e.getView().getTopInventory().getHolder();
-            FurnaceInventory inv = (FurnaceInventory) e.getView().getTopInventory();
-
-            if(inv.getFuel() == null || inv.getFuel().getType() != Material.LAVA_BUCKET) return;
-
-            if(inv.getSmelting() == null || inv.getSmelting().getType() != Material.POTATO) return;
-
-            System.out.println(inv.getClass().getName());
-
-
-            e.getWhoClicked().sendMessage(e.getSlotType().toString());
-        }, 1);
-    }
-    @EventHandler
-    public void test(InventoryMoveItemEvent e) {
-        Bukkit.broadcastMessage("event");
-    }
 
 
     @EventHandler

@@ -7,11 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a734b811-1329-45a4-b9fd-5763b237ddb3" name="Default Changelist" comment="update">
-      <change afterPath="$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMakerUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/de/yetihafen/pommesmaker/listeners/ActivateListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/de/yetihafen/pommesmaker/listeners/ActivateListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/de/yetihafen/pommesmaker/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/de/yetihafen/pommesmaker/main/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMaker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMakerUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMakerUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +27,12 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMakerUI.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/de/yetihafen/pommesmaker/listeners/ActivateListener.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMaker.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/de/yetihafen/pommesmaker/main/Main.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1vzgfU5XtJejatAqoG9bKsUSCnf" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />

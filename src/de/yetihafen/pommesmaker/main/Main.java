@@ -2,6 +2,7 @@ package de.yetihafen.pommesmaker.main;
 
 import de.yetihafen.pommesmaker.listeners.ActivateListener;
 import de.yetihafen.pommesmaker.pommes.PommesMaker;
+import de.yetihafen.pommesmaker.pommes.PommesMakerUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -12,15 +13,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Main extends JavaPlugin {
 
 
-    ActivateListener l;
+
     private static Main plugin;
 
     @Override
     public void onEnable() {
         plugin = this;
         PluginManager pm = Bukkit.getPluginManager();
-        l = new ActivateListener();
-        pm.registerEvents(l, this);
+
+        pm.registerEvents(new ActivateListener(), this);
+        pm.registerEvents(new PommesMakerUI.InterfaceListener(), this);
+
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for(PommesMaker m : PommesMaker.getActiveMakers()) {
                 Location l = m.getLocation();
@@ -33,7 +36,7 @@ public class Main extends JavaPlugin {
                 m.tick();
             }
 
-        }, 0, 20 * 5);
+        }, 0, 0);
     }
 
     @Override

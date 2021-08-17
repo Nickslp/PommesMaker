@@ -8,6 +8,8 @@ import org.bukkit.block.Block;
 import org.bukkit.block.data.type.EndPortalFrame;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -23,9 +25,9 @@ public class PommesMaker implements InventoryHolder {
     private final Location above;
     private final Block block;
     private Status status;
-    private long activeSince = -1;
     private long alarmSoundPlayedSince = -1;
     private final PommesMakerUI ui;
+    private int progress = 0;
 
     private PommesMaker(Block block) {
         if(!(block.getBlockData() instanceof EndPortalFrame)) throw new IllegalArgumentException("Block is no EndPortalFrame");
@@ -61,29 +63,37 @@ public class PommesMaker implements InventoryHolder {
     }
 
     public void enable() {
+        if(status == Status.ON) return;
         if(status == Status.BROKEN) throw new IllegalStateException("PommesMaker is broken (can't be enabled)");
         EndPortalFrame data = (EndPortalFrame) block.getBlockData();
         data.setEye(true);
         block.setBlockData(data);
         this.status = Status.ON;
-        activeSince = System.currentTimeMillis();
         activeMakers.add(this);
     }
 
     public void disable() {
+        progress = 0;
         EndPortalFrame data = (EndPortalFrame) block.getBlockData();
         data.setEye(false);
         block.setBlockData(data);
         activeMakers.remove(this);
-        activeSince = -1;
         if(status != Status.BROKEN)
             this.status = Status.OFF;
     }
 
     public void tick() {
-        Random r = new Random();
-        int res = r.nextInt(100) + 1;
-        if(res < 2) explode();
+        progress++;
+        if (progress > 200) progress = 0;
+        if (progress == 200) {
+            finishCycle();
+            return;
+        }
+        getInventory().getViewers().forEach(v -> v.setWindowProperty(InventoryView.Property.COOK_TIME, progress));
+    }
+
+    private void finishCycle() {
+        // TODO
     }
 
     public void repair() {
@@ -100,6 +110,8 @@ public class PommesMaker implements InventoryHolder {
         for(int i = 0; i < makers.size(); i++) {
             PommesMaker maker = makers.get(i);
             if(maker.getLocation().equals(loc)) {
+                for(ItemStack item : maker.getInventory().getContents())
+                    if(item != null) loc.getWorld().dropItem(loc, item);
                 maker.disable();
                 maker.delete();
             }
