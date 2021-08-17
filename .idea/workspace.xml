@@ -6,8 +6,8 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a734b811-1329-45a4-b9fd-5763b237ddb3" name="Default Changelist" comment="add server-setup.bat">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="a734b811-1329-45a4-b9fd-5763b237ddb3" name="Default Changelist" comment="V2 finish">
+      <change beforePath="$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMakerUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMakerUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +23,12 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMakerUI.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/de/yetihafen/pommesmaker/listeners/ActivateListener.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMaker.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/de/yetihafen/pommesmaker/main/Main.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1vzgfU5XtJejatAqoG9bKsUSCnf" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -42,7 +48,7 @@
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="discord-application" />
   </component>
   <component name="RunManager">
     <configuration name="server" type="JarApplication">
@@ -74,7 +80,28 @@
       <option name="project" value="LOCAL" />
       <updated>1628015274976</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="add server-setup.bat">
+      <created>1628017018599</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1628017018599</updated>
+    </task>
+    <task id="LOCAL-00003" summary="update">
+      <created>1629207933707</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1629207933707</updated>
+    </task>
+    <task id="LOCAL-00004" summary="V2 finish">
+      <created>1629209577193</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1629209577193</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -91,7 +118,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add server-setup.bat" />
-    <option name="LAST_COMMIT_MESSAGE" value="add server-setup.bat" />
+    <MESSAGE value="update" />
+    <MESSAGE value="V2 finish" />
+    <option name="LAST_COMMIT_MESSAGE" value="V2 finish" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

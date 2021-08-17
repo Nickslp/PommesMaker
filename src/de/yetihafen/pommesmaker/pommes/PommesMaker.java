@@ -5,12 +5,14 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.EndPortalFrame;
+import org.bukkit.inventory.*;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 
-public class PommesMaker {
+public class PommesMaker implements InventoryHolder {
 
     private static final ArrayList<PommesMaker> makers = new ArrayList<>();
     private static final ArrayList<PommesMaker> activeMakers = new ArrayList<>();
@@ -19,19 +21,18 @@ public class PommesMaker {
     private final Location above;
     private final Block block;
     private Status status;
-    private long activeSince = -1;
+    private long alarmSoundPlayedSince = -1;
+    private final PommesMakerUI ui;
+    private int progress = 0;
 
     private PommesMaker(Block block) {
         if(!(block.getBlockData() instanceof EndPortalFrame)) throw new IllegalArgumentException("Block is no EndPortalFrame");
         this.block = block;
         this.location = block.getLocation();
         this.above = location.clone().add(0,1,0);
+        this.ui = new PommesMakerUI(this);
     }
 
-    private PommesMaker(Block b, Status status) {
-        this(b);
-        this.status = status;
-    }
 
     public void explode() {
         EndPortalFrame data = (EndPortalFrame) location.getBlock().getBlockData();
@@ -41,36 +42,66 @@ public class PommesMaker {
         block.setType(Material.END_PORTAL_FRAME);
         block.setBlockData(data);
         location.getWorld().spawnParticle(Particle.FLAME, above,300, 0.5, 0.5, 0.5);
-        location.getWorld().playSound(above,"serversound.alarm", 8,10);
+
+        // check for alarm
+        if((System.currentTimeMillis() - 30 * 1000) > alarmSoundPlayedSince) {
+            // play sound
+            location.getWorld().playSound(above,"serversound.alarm", 1,1);
+            alarmSoundPlayedSince = System.currentTimeMillis();
+        }
         above.getBlock().setType(Material.FIRE);
         disable();
         this.status = Status.BROKEN;
     }
 
     public void enable() {
+        if(status == Status.ON) return;
         if(status == Status.BROKEN) throw new IllegalStateException("PommesMaker is broken (can't be enabled)");
         EndPortalFrame data = (EndPortalFrame) block.getBlockData();
         data.setEye(true);
         block.setBlockData(data);
         this.status = Status.ON;
-        activeSince = System.currentTimeMillis();
         activeMakers.add(this);
     }
 
     public void disable() {
+        progress = 0;
+        getInventory().getViewers().forEach(v -> v.setWindowProperty(InventoryView.Property.COOK_TIME, progress));
         EndPortalFrame data = (EndPortalFrame) block.getBlockData();
         data.setEye(false);
         block.setBlockData(data);
         activeMakers.remove(this);
-        activeSince = -1;
         if(status != Status.BROKEN)
             this.status = Status.OFF;
     }
 
     public void tick() {
-        Random r = new Random();
-        int res = r.nextInt(100) + 1;
-        if(res < 2) explode();
+        progress++;
+        if (progress > 200) progress = 0;
+        if (progress == 200) {
+            finishCycle();
+            return;
+        }
+        getInventory().getViewers().forEach(v -> v.setWindowProperty(InventoryView.Property.COOK_TIME, progress));
+    }
+
+    private void finishCycle() {
+        FurnaceInventory fi = ui.getInv();
+        int potatoes = fi.getSmelting() == null ? 0 : fi.getSmelting().getAmount();
+        int pommes = fi.getResult() == null ? 0 : fi.getResult().getAmount();
+
+        if(potatoes > 0 && pommes > 0) {
+            fi.getSmelting().setAmount(fi.getSmelting().getAmount() - 1);
+            fi.getResult().setAmount(fi.getResult().getAmount() + 1);
+        } else if (potatoes > 0) {
+            ItemStack item = new ItemStack(Material.BAKED_POTATO);
+            ItemMeta imeta = item.getItemMeta();
+            imeta.setDisplayName("§6Pommes");
+            item.setItemMeta(imeta);
+            fi.setResult(item);
+            fi.getSmelting().setAmount(fi.getSmelting().getAmount() - 1);
+        }
+
     }
 
     public void repair() {
@@ -84,12 +115,17 @@ public class PommesMaker {
     }
 
     public static void deleteAt(Location loc) {
-        for(int i = 0; i < makers.size(); i++) {
+
+        int i = 0;
+        while (i < makers.size()) {
             PommesMaker maker = makers.get(i);
             if(maker.getLocation().equals(loc)) {
+                for(ItemStack item : maker.getInventory().getContents())
+                    if(item != null) loc.getWorld().dropItem(loc, item);
                 maker.disable();
                 maker.delete();
             }
+            i++;
         }
     }
 
@@ -128,6 +164,16 @@ public class PommesMaker {
 
     public static ArrayList<PommesMaker> getMakers() {
         return makers;
+    }
+
+    public PommesMakerUI getUi() {
+        return ui;
+    }
+
+    @NotNull
+    @Override
+    public Inventory getInventory() {
+        return ui.getInv();
     }
 
     public enum Status {

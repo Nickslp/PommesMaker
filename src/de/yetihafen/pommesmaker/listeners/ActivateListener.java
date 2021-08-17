@@ -64,14 +64,18 @@ public class ActivateListener implements Listener {
         if(e.getHand() == EquipmentSlot.OFF_HAND) return;
         if(e.getClickedBlock().getType() != Material.END_PORTAL_FRAME) return;
 
-        // switch status
-        PommesMaker maker = PommesMaker.getFromLocation(e.getClickedBlock().getLocation());
-        if(maker.isActive())
-            maker.disable();
-        else
-            maker.enable();
+        e.setCancelled(true);
 
+        PommesMaker maker = PommesMaker.getFromLocation(e.getClickedBlock().getLocation());
+
+
+
+        if(maker.getStatus() == PommesMaker.Status.BROKEN) return;
+
+        e.getPlayer().openInventory(maker.getUi().getInv());
     }
+
+
 
 
     @EventHandler
