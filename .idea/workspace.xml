@@ -6,9 +6,8 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a734b811-1329-45a4-b9fd-5763b237ddb3" name="Default Changelist" comment="update">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMaker.java" afterDir="false" />
+    <list default="true" id="a734b811-1329-45a4-b9fd-5763b237ddb3" name="Default Changelist" comment="V2 finish">
+      <change beforePath="$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMakerUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMakerUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +94,14 @@
       <option name="project" value="LOCAL" />
       <updated>1629207933707</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="V2 finish">
+      <created>1629209577193</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1629209577193</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -113,7 +119,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add server-setup.bat" />
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="V2 finish" />
+    <option name="LAST_COMMIT_MESSAGE" value="V2 finish" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

@@ -36,7 +36,6 @@ public class PommesMakerUI {
                 if(!e.getView().getTitle().equals(INV_TITLE)) return;
 
 
-                // TODO
                 FurnaceInventory inv = (FurnaceInventory) e.getView().getTopInventory();
                 PommesMaker maker = makerMapping.get(inv);
                 if(maker == null) return;
