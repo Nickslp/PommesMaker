@@ -1,24 +1,18 @@
 package de.yetihafen.pommesmaker.listeners;
 
-import de.yetihafen.pommesmaker.main.Main;
 import de.yetihafen.pommesmaker.pommes.PommesMaker;
-import de.yetihafen.pommesmaker.pommes.PommesMakerUI;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.FurnaceInventory;
 
 import java.util.HashMap;
 import java.util.Map;

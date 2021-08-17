@@ -1,19 +1,15 @@
 package de.yetihafen.pommesmaker.pommes;
 
-import net.minecraft.world.level.block.entity.TileEntityFurnace;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.EndPortalFrame;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.InventoryView;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.*;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 
 public class PommesMaker implements InventoryHolder {
@@ -37,10 +33,6 @@ public class PommesMaker implements InventoryHolder {
         this.ui = new PommesMakerUI(this);
     }
 
-    private PommesMaker(Block b, Status status) {
-        this(b);
-        this.status = status;
-    }
 
     public void explode() {
         EndPortalFrame data = (EndPortalFrame) location.getBlock().getBlockData();
@@ -74,6 +66,7 @@ public class PommesMaker implements InventoryHolder {
 
     public void disable() {
         progress = 0;
+        getInventory().getViewers().forEach(v -> v.setWindowProperty(InventoryView.Property.COOK_TIME, progress));
         EndPortalFrame data = (EndPortalFrame) block.getBlockData();
         data.setEye(false);
         block.setBlockData(data);
@@ -93,7 +86,22 @@ public class PommesMaker implements InventoryHolder {
     }
 
     private void finishCycle() {
-        // TODO
+        FurnaceInventory fi = ui.getInv();
+        int potatoes = fi.getSmelting() == null ? 0 : fi.getSmelting().getAmount();
+        int pommes = fi.getResult() == null ? 0 : fi.getResult().getAmount();
+
+        if(potatoes > 0 && pommes > 0) {
+            fi.getSmelting().setAmount(fi.getSmelting().getAmount() - 1);
+            fi.getResult().setAmount(fi.getResult().getAmount() + 1);
+        } else if (potatoes > 0) {
+            ItemStack item = new ItemStack(Material.BAKED_POTATO);
+            ItemMeta imeta = item.getItemMeta();
+            imeta.setDisplayName("§6Pommes");
+            item.setItemMeta(imeta);
+            fi.setResult(item);
+            fi.getSmelting().setAmount(fi.getSmelting().getAmount() - 1);
+        }
+
     }
 
     public void repair() {
@@ -107,7 +115,9 @@ public class PommesMaker implements InventoryHolder {
     }
 
     public static void deleteAt(Location loc) {
-        for(int i = 0; i < makers.size(); i++) {
+
+        int i = 0;
+        while (i < makers.size()) {
             PommesMaker maker = makers.get(i);
             if(maker.getLocation().equals(loc)) {
                 for(ItemStack item : maker.getInventory().getContents())
@@ -115,6 +125,7 @@ public class PommesMaker implements InventoryHolder {
                 maker.disable();
                 maker.delete();
             }
+            i++;
         }
     }
 
