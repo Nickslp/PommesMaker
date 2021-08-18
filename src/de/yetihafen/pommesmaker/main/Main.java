@@ -18,6 +18,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
         plugin = this;
         PluginManager pm = Bukkit.getPluginManager();
 
