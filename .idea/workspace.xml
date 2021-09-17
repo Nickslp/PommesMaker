@@ -2,20 +2,15 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="PommesMaker-paper" />
+      <artifact name="PommesMaker" />
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a734b811-1329-45a4-b9fd-5763b237ddb3" name="Default Changelist" comment="V2 finish">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/PommesMaker_paper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/purpur_1_17_1_1332.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="a734b811-1329-45a4-b9fd-5763b237ddb3" name="Default Changelist" comment="V2 paper hack">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PommesMaker.iml" beforeDir="false" afterPath="$PROJECT_DIR$/PommesMaker.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/de/yetihafen/pommesmaker/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/de/yetihafen/pommesmaker/main/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMaker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMakerUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMakerUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,10 +33,10 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMakerUI.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/de/yetihafen/pommesmaker/listeners/ActivateListener.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMaker.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/de/yetihafen/pommesmaker/pommes/PommesMakerUI.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/de/yetihafen/pommesmaker/main/Main.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/de/yetihafen/pommesmaker/listeners/ActivateListener.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1vzgfU5XtJejatAqoG9bKsUSCnf" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -57,13 +52,14 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/plugin.yml" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="discord-application" />
   </component>
-  <component name="RunManager" selected="JAR Application.paper">
+  <component name="RunManager" selected="JAR Application.server">
     <configuration name="paper" type="JarApplication">
       <option name="JAR_PATH" value="$PROJECT_DIR$/purpur/paper-1.17.1-195.jar" />
       <option name="PROGRAM_PARAMETERS" value="nogui" />
@@ -100,6 +96,10 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627570436459</updated>
+      <workItem from="1631885430784" duration="289000" />
+      <workItem from="1631885736114" duration="108000" />
+      <workItem from="1631886014131" duration="308000" />
+      <workItem from="1631886336620" duration="2511000" />
     </task>
     <task id="LOCAL-00001" summary="add server-setup.bat">
       <created>1628015274975</created>
@@ -136,8 +136,18 @@
       <option name="project" value="LOCAL" />
       <updated>1629209602496</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="V2 paper hack">
+      <created>1629317595980</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1629317595980</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -155,7 +165,8 @@
     <MESSAGE value="add server-setup.bat" />
     <MESSAGE value="update" />
     <MESSAGE value="V2 finish" />
-    <option name="LAST_COMMIT_MESSAGE" value="V2 finish" />
+    <MESSAGE value="V2 paper hack" />
+    <option name="LAST_COMMIT_MESSAGE" value="V2 paper hack" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
