@@ -66,7 +66,7 @@ public class PommesMaker implements InventoryHolder {
 
     public void disable() {
         progress = 0;
-        getInventory().getViewers().forEach(v -> v.setWindowProperty(InventoryView.Property.COOK_TIME, progress));
+        // getInventory().getViewers().forEach(v -> v.setWindowProperty(InventoryView.Property.COOK_TIME, progress));
         EndPortalFrame data = (EndPortalFrame) block.getBlockData();
         data.setEye(false);
         block.setBlockData(data);
@@ -82,26 +82,34 @@ public class PommesMaker implements InventoryHolder {
             finishCycle();
             return;
         }
-        getInventory().getViewers().forEach(v -> v.setWindowProperty(InventoryView.Property.COOK_TIME, progress));
+        // getInventory().getViewers().forEach(v -> v.setWindowProperty(InventoryView.Property.COOK_TIME, progress));
     }
 
     private void finishCycle() {
-        FurnaceInventory fi = ui.getInv();
-        int potatoes = fi.getSmelting() == null ? 0 : fi.getSmelting().getAmount();
-        int pommes = fi.getResult() == null ? 0 : fi.getResult().getAmount();
+        
+
+        Inventory fi = ui.getInv();
+
+        ItemStack[] contents = fi.getContents();
+
+        ItemStack smelting = contents[0];
+        ItemStack result = contents[2];
+
+        int potatoes = smelting == null ? 0 : smelting.getAmount();
+        int pommes = result == null ? 0 : result.getAmount();
 
         if(potatoes > 0 && pommes > 0) {
-            fi.getSmelting().setAmount(fi.getSmelting().getAmount() - 1);
-            fi.getResult().setAmount(fi.getResult().getAmount() + 1);
+            smelting.setAmount(smelting.getAmount() - 1);
+            result.setAmount(result.getAmount() + 1);
         } else if (potatoes > 0) {
             ItemStack item = new ItemStack(Material.BAKED_POTATO);
             ItemMeta imeta = item.getItemMeta();
             imeta.setDisplayName("§6Pommes");
             item.setItemMeta(imeta);
-            fi.setResult(item);
-            fi.getSmelting().setAmount(fi.getSmelting().getAmount() - 1);
+            contents[2] = item;
+            smelting.setAmount(smelting.getAmount() - 1);
         }
-
+        fi.setContents(contents);
     }
 
     public void repair() {

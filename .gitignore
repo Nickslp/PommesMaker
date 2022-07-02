@@ -1,3 +1,7 @@
-# Project exclude paths
-/out/
-/server/
+/.gradle
+/.vscode
+/.idea
+
+/bin
+/build
+/server

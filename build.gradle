@@ -1,0 +1,52 @@
+apply plugin: "java"
+apply from: "setup.gradle"
+
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://repo.papermc.io/repository/maven-public/"
+    }
+}
+
+dependencies {
+    // Use JUnit Jupiter for testing.
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    compileOnly "io.papermc.paper:paper-api:1.19-R0.1-SNAPSHOT"
+}
+
+tasks.named('test') {
+    // Use JUnit Platform for unit tests.
+    useJUnitPlatform()
+}
+
+task setup(type: SetupTask, dependsOn: build) {
+    serverFile = initServer()
+}
+
+task run(type: JavaExec, dependsOn: setup) {
+    
+    workingDir = "${rootProject.projectDir}/server"
+    classpath = sourceSets.main.runtimeClasspath
+
+    mainClass = "-jar"
+    args = [
+        "${rootProject.projectDir}/server/${setup.serverFile}"
+    ]
+}
+
+jar {
+    from "src/main/resources"
+    duplicatesStrategy DuplicatesStrategy.EXCLUDE
+
+    doLast {
+        copy {
+            from "build/libs/PommesMaker.jar"
+            into "server/plugins"
+        }
+    }
+}
+
+abstract class SetupTask extends DefaultTask {
+    def serverFile
+}

@@ -1,0 +1,75 @@
+import groovy.transform.Field
+import groovy.json.JsonSlurper
+
+class SetupManager {
+
+    def serverJarPath
+    def serverDownload
+    def version
+    def rootDir
+
+    SetupManager(rootDir, version) {
+        this.rootDir = rootDir
+        this.version = version
+
+        serverDownload = getDownload()
+        serverJarPath = "${rootDir}/server/${serverDownload[0]}"
+    }
+
+    boolean existsServerJar() {
+        File file = new File(serverJarPath)
+        return file.exists()
+    }
+
+    boolean installServer() {
+
+        // create server folder
+        File file = new File(serverJarPath)
+        if(!file.getParentFile().exists()) {
+            file.getParentFile().mkdirs();
+        }
+
+        File eula = new File("${rootDir}/server/eula.txt")
+        if(!eula.exists()) {
+            eula.write "eula=true"
+        }
+
+        // download server
+        downloadServerJar()
+    }
+
+    void downloadServerJar() {
+        println "downloading server..."
+        new File("$rootDir/server/${serverDownload[0]}").withOutputStream { out ->
+            new URL(serverDownload[1]).withInputStream { from -> out << from; }
+        }
+        println "download finished"
+    }
+    
+    
+    def getDownload() {
+
+        String rawResponse = new URL("https://api.papermc.io/v2/projects/paper/versions/${version}/builds").text
+        JsonSlurper jsonSlurper = new JsonSlurper()
+
+        def res = jsonSlurper.parseText(rawResponse)
+        def latestBuild = res.builds.get(res.builds.size() - 1)
+
+    
+        String filename = latestBuild.downloads.application.name
+        String downloadUrl = "https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${latestBuild.build}/downloads/${filename}"
+
+        return [filename, downloadUrl]
+    }
+}
+
+ext.initServer = {
+    SetupManager setupManager = new SetupManager(rootProject.projectDir, gradle.mcVersion)
+
+    if(!setupManager.existsServerJar()) {
+        println "installing server..."
+        setupManager.installServer()
+    }
+    println "server exists"
+    return setupManager.serverDownload[0]
+}
