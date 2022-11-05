@@ -9,24 +9,19 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
 import java.util.HashMap;
 import java.util.Objects;
-
 public class PommesMakerUI {
 
     private static final String INV_TITLE = "§6Pommes Maker";
     private static final HashMap<Inventory, PommesMaker> makerMapping = new HashMap<>();
     private final Inventory inv;
     private final PommesMaker maker;
-
-
     public PommesMakerUI(PommesMaker maker) {
         inv = Bukkit.createInventory(maker, InventoryType.FURNACE, INV_TITLE);
         this.maker = Objects.requireNonNull(maker);
         makerMapping.put(inv, maker);
     }
-
     public static class InterfaceListener implements Listener {
 
         @EventHandler
@@ -35,7 +30,6 @@ public class PommesMakerUI {
             Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
 
                 if(!e.getView().getTitle().equals(INV_TITLE)) return;
-
 
                 Inventory inv =  e.getView().getTopInventory();
                 PommesMaker maker = makerMapping.get(inv);
@@ -55,6 +49,8 @@ public class PommesMakerUI {
                     if(maker.isActive()) maker.disable();
                     return;
                 }
+
+
                 maker.enable();
             }, 1);
 

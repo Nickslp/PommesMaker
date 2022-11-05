@@ -10,13 +10,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-
-
 public class PommesMaker implements InventoryHolder {
 
     private static final ArrayList<PommesMaker> makers = new ArrayList<>();
     private static final ArrayList<PommesMaker> activeMakers = new ArrayList<>();
-
     private final Location location;
     private final Location above;
     private final Block block;
@@ -32,7 +29,6 @@ public class PommesMaker implements InventoryHolder {
         this.above = location.clone().add(0,1,0);
         this.ui = new PommesMakerUI(this);
     }
-
 
     public void explode() {
         EndPortalFrame data = (EndPortalFrame) location.getBlock().getBlockData();
@@ -82,11 +78,11 @@ public class PommesMaker implements InventoryHolder {
             finishCycle();
             return;
         }
-        // getInventory().getViewers().forEach(v -> v.setWindowProperty(InventoryView.Property.COOK_TIME, progress));
+        //getInventory().getViewers().forEach(v -> v.setWindowProperty(InventoryView.Property.COOK_TIME, progress));
+
     }
 
     private void finishCycle() {
-        
 
         Inventory fi = ui.getInv();
 
@@ -110,6 +106,8 @@ public class PommesMaker implements InventoryHolder {
             smelting.setAmount(smelting.getAmount() - 1);
         }
         fi.setContents(contents);
+
+
     }
 
     public void repair() {

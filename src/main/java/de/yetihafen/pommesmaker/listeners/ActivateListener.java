@@ -3,6 +3,7 @@ package de.yetihafen.pommesmaker.listeners;
 import de.yetihafen.pommesmaker.pommes.PommesMaker;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.EventHandler;
@@ -13,10 +14,8 @@ import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
-
 import java.util.HashMap;
 import java.util.Map;
-
 
 public class ActivateListener implements Listener {
 
@@ -38,7 +37,6 @@ public class ActivateListener implements Listener {
         if(expTriggerCount > 20)
             activeExplosions.clear();
 
-
         // check if location is already exploding
         if(activeExplosions.containsKey(above.getLocation())) {
             long started = activeExplosions.get(above.getLocation());
@@ -57,7 +55,6 @@ public class ActivateListener implements Listener {
         activeExplosions.put(above.getLocation(), System.currentTimeMillis());
     }
 
-
     @EventHandler
     public void usePommesMaker(PlayerInteractEvent e) {
         if(e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
@@ -75,14 +72,12 @@ public class ActivateListener implements Listener {
         e.getPlayer().openInventory(maker.getUi().getInv());
     }
 
-
-
-
     @EventHandler
     public void onBottleThrow(ProjectileHitEvent e){
         Projectile projectile = e.getEntity();
         if(projectile instanceof ThrownPotion){
-            if(e.getHitBlock().getType().equals(Material.END_PORTAL_FRAME)){
+            if(e.getHitBlock() == null) return;
+            if (e.getHitBlock().getType().equals(Material.END_PORTAL_FRAME)) {
                 Block under = e.getHitBlock();
                 Location loc = under.getLocation();
                 PommesMaker.getFromLocation(loc).explode();
