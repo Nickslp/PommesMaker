@@ -1,5 +1,5 @@
 name: PommesMaker3000
-version: 1.0
+version: 1.2
 main: de.yetihafen.pommesmaker.main.Main
 api-version: 1.17
-author: YetiHafen
+author: YetiHafen, Nickslp
