@@ -22,40 +22,38 @@ class SetupManager {
     }
 
     boolean installServer() {
-
-        // create server folder
-        File file = new File(serverJarPath)
-        if(!file.getParentFile().exists()) {
-            file.getParentFile().mkdirs();
+        // Create server folder
+        File serverDir = new File(rootDir, "server")
+        if (!serverDir.exists()) {
+            serverDir.mkdirs()
         }
 
-        File eula = new File("${rootDir}/server/eula.txt")
-        if(!eula.exists()) {
-            eula.write "eula=true"
+        // Create EULA file
+        File eula = new File(serverDir, "eula.txt")
+        if (!eula.exists()) {
+            eula.write("eula=true")
         }
 
-        // download server
+        // Download server
         downloadServerJar()
+        return true
     }
 
     void downloadServerJar() {
-        println "downloading server..."
-        new File("$rootDir/server/${serverDownload[0]}").withOutputStream { out ->
-            new URL(serverDownload[1]).withInputStream { from -> out << from; }
+        println "Downloading server..."
+        new File(serverJarPath).withOutputStream { out ->
+            new URL(serverDownload[1]).withInputStream { from -> out << from }
         }
-        println "download finished"
+        println "Download finished: ${serverDownload[0]}"
     }
-    
-    
-    def getDownload() {
 
+    def getDownload() {
         String rawResponse = new URL("https://api.papermc.io/v2/projects/paper/versions/${version}/builds").text
         JsonSlurper jsonSlurper = new JsonSlurper()
 
         def res = jsonSlurper.parseText(rawResponse)
-        def latestBuild = res.builds.get(res.builds.size() - 1)
+        def latestBuild = res.builds.last() // Using last() for better readability
 
-    
         String filename = latestBuild.downloads.application.name
         String downloadUrl = "https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${latestBuild.build}/downloads/${filename}"
 
@@ -66,10 +64,13 @@ class SetupManager {
 ext.initServer = {
     SetupManager setupManager = new SetupManager(rootProject.projectDir, gradle.mcVersion)
 
-    if(!setupManager.existsServerJar()) {
-        println "installing server..."
+    if (!setupManager.existsServerJar()) {
+        println "Installing server..."
         setupManager.installServer()
+    } else {
+        println "Server already exists."
     }
-    println "server exists"
+
     return setupManager.serverDownload[0]
 }
+
