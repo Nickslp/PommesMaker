@@ -1,22 +1,33 @@
-apply plugin: "java"
-apply from: "setup.gradle"
+plugins {
+    id 'java'
+}
 
+apply from: 'setup.gradle'
 
 repositories {
     mavenCentral()
     maven {
-        url "https://repo.papermc.io/repository/maven-public/"
+        name = 'papermc'
+        url = 'https://repo.papermc.io/repository/maven-public/'
     }
 }
 
 dependencies {
-    // Use JUnit Jupiter for testing.
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
-    compileOnly "io.papermc.paper:paper-api:1.19-R0.1-SNAPSHOT"
+    compileOnly 'io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT'
+}
+
+// Java compatibility
+sourceCompatibility = '21'
+targetCompatibility = '21'
+
+// Optional: If you want to specify the Java toolchain
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 tasks.named('test') {
-    // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
 
@@ -25,24 +36,23 @@ task setup(type: SetupTask, dependsOn: build) {
 }
 
 task run(type: JavaExec, dependsOn: setup) {
-    
     workingDir = "${rootProject.projectDir}/server"
     classpath = sourceSets.main.runtimeClasspath
 
-    mainClass = "-jar"
+    mainClass = '-jar'
     args = [
-        "${rootProject.projectDir}/server/${setup.serverFile}"
+            "${rootProject.projectDir}/server/${setup.serverFile}"
     ]
 }
 
 jar {
-    from "src/main/resources"
-    duplicatesStrategy DuplicatesStrategy.EXCLUDE
+    from 'src/main/resources'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     doLast {
         copy {
-            from "build/libs/PommesMaker.jar"
-            into "server/plugins"
+            from 'build/libs/PommesMaker.jar'
+            into 'server/plugins'
         }
     }
 }
