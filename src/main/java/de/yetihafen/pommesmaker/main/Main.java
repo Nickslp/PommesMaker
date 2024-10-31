@@ -18,27 +18,33 @@ public class Main extends JavaPlugin {
         plugin = this;
         PluginManager pm = Bukkit.getPluginManager();
 
+        // Registering event listeners
         pm.registerEvents(new ActivateListener(), this);
         pm.registerEvents(new PommesMakerUI.InterfaceListener(), this);
 
+        // Particle effect task
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-            for(PommesMaker m : PommesMaker.getActiveMakers()) {
+            for (PommesMaker m : PommesMaker.getActiveMakers()) {
                 Location l = m.getLocation();
-                l.getWorld().spawnParticle(Particle.DRIPPING_HONEY, l.getBlockX() + 0.5, l.getBlockY() + 0.3, l.getBlockZ() + 0.5, 11, 0.2, 0F, 0.2);
+                l.getWorld().spawnParticle(Particle.DRIPPING_HONEY,
+                        l.getBlockX() + 0.5,
+                        l.getBlockY() + 0.3,
+                        l.getBlockZ() + 0.5,
+                        11, 0.2, 0F, 0.2);
             }
         }, 0, 4);
+
+        // Smelting progress tick task
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-            for(int i = 0; i < PommesMaker.getActiveMakers().size(); i++) {
-                PommesMaker m = PommesMaker.getActiveMakers().get(i);
+            for (PommesMaker m : PommesMaker.getActiveMakers()) {
                 m.tick();
             }
-
-        }, 0, 0);
+        }, 0, 1);
     }
 
     @Override
     public void onDisable() {
-
+        // Optional: Cleanup or shutdown tasks can be added here
     }
 
     public static Main getPlugin() {
