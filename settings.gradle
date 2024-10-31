@@ -8,4 +8,4 @@
  */
 
 rootProject.name = 'PommesMaker'
-gradle.ext.mcVersion = '1.19'
+gradle.ext.mcVersion = '1.21'
