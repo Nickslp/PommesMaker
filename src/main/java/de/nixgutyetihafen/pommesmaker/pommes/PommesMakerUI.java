@@ -1,6 +1,6 @@
-package de.yetihafen.pommesmaker.pommes;
+package de.nixgutyetihafen.pommesmaker.pommes;
 
-import de.yetihafen.pommesmaker.main.Main;
+import de.nixgutyetihafen.pommesmaker.main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -43,21 +43,21 @@ public class PommesMakerUI {
                 ItemStack smelting = contents[0];
                 ItemStack fuel = contents[1];
 
-                if (fuel == null || fuel.getType() != Material.LAVA_BUCKET) {
+                // Check for fuel and smelting conditions
+                boolean hasFuel = fuel != null && fuel.getType() == Material.LAVA_BUCKET;
+                boolean hasPotato = smelting != null && smelting.getType() == Material.POTATO;
+
+                if (hasFuel && hasPotato) {
+                    if (!maker.isActive()) {
+                        maker.enable();
+//                        e.getWhoClicked().sendMessage("§aPommesMaker enabled!"); // Feedback to player
+                    }
+                } else {
                     if (maker.isActive()) {
                         maker.disable();
+//                        e.getWhoClicked().sendMessage("§cPommesMaker disabled!"); // Feedback to player
                     }
-                    return;
                 }
-
-                if (smelting == null || smelting.getType() != Material.POTATO) {
-                    if (maker.isActive()) {
-                        maker.disable();
-                    }
-                    return;
-                }
-
-                maker.enable();
             }, 1);
         }
     }

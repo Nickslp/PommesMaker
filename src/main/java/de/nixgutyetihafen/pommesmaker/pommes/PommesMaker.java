@@ -1,16 +1,23 @@
-package de.yetihafen.pommesmaker.pommes;
+package de.nixgutyetihafen.pommesmaker.pommes;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.EndPortalFrame;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.PacketContainer;
+import de.nixgutyetihafen.pommesmaker.main.Main;
 
 import java.util.ArrayList;
 
@@ -98,17 +105,85 @@ public class PommesMaker implements InventoryHolder {
 
         // Update the inventory UI for all viewers
         updateProgressUI();
+        sendFurnaceAnimationPacket();
     }
-
 
     private void updateProgressUI() {
         getInventory().getViewers().forEach(viewer -> {
             if (viewer.getOpenInventory().getTopInventory().equals(getInventory())) {
-                // Update the cooking progress for the viewer
                 viewer.setWindowProperty(InventoryView.Property.COOK_TIME, (short) progress);
             }
         });
     }
+
+    private boolean debugEnabled = false; // Default is false
+
+    private void sendFurnaceAnimationPacket() {
+        for (HumanEntity viewer : getInventory().getViewers()) {
+            // Check if the viewer is a Player
+            if (!(viewer instanceof Player)) {
+                continue; // Skip if not a player
+            }
+
+            Player player = (Player) viewer; // Cast to Player
+
+            if (!player.getOpenInventory().getTopInventory().equals(getInventory())) {
+                continue; // Skip if not viewing the correct inventory
+            }
+
+            int windowId = player.getOpenInventory().getTopInventory().hashCode(); // Use hashCode() for a temporary workaround
+
+            PacketContainer packet = ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.WINDOW_DATA);
+
+            // Debugging
+            if (Main.globalDebugMode) {
+                Bukkit.getLogger().info("Preparing to send WINDOW_DATA packet with window ID: " + windowId);
+                Bukkit.getLogger().info("Cook time set to: " + ((progress * 200) / CYCLE_DURATION));
+            }
+
+            try {
+                // Prepare the packet
+                packet.getIntegers().write(0, windowId); // Window ID
+                packet.getIntegers().write(1, 0);        // Property ID (e.g., cook time)
+                packet.getIntegers().write(2, (int) ((progress * 200) / CYCLE_DURATION)); // Cook time value
+
+                // Log the expected structure
+                if (Main.globalDebugMode) {
+                    Bukkit.getLogger().info("Expected fields: " + packet.getIntegers().size() + " integers");
+                }
+
+                // Send the packet
+                ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
+                if (Main.globalDebugMode) {
+                    Bukkit.getLogger().info("Successfully sent furnace animation packet to: " + player.getName());
+                }
+            } catch (Exception e) {
+                Bukkit.getLogger().severe("Failed to send packet to " + player.getName() + ": " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     private ItemStack createProgressItem(int progress) {

@@ -1,9 +1,8 @@
-package de.yetihafen.pommesmaker.listeners;
+package de.nixgutyetihafen.pommesmaker.listeners;
 
-import de.yetihafen.pommesmaker.pommes.PommesMaker;
+import de.nixgutyetihafen.pommesmaker.pommes.PommesMaker;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.EventHandler;

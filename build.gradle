@@ -10,11 +10,18 @@ repositories {
         name = 'papermc'
         url = 'https://repo.papermc.io/repository/maven-public/'
     }
+    maven {
+        name = 'protocolLib'
+        url = 'https://repo.dmulloy2.net/repository/public/' // ProtocolLib repository
+    }
 }
 
+
 dependencies {
-    compileOnly 'io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT'
+    compileOnly 'io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT' // Adjusted to match your Paper version
+    compileOnly 'com.comphenix.protocol:ProtocolLib:5.3.0' // Ensure this is the correct version
 }
+
 
 // Java compatibility
 sourceCompatibility = '21'

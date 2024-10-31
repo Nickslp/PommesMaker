@@ -1,5 +1,11 @@
 name: PommesMaker3000
-version: 1.2
-main: de.yetihafen.pommesmaker.main.Main
-api-version: 1.17
-author: YetiHafen, Nickslp
+version: 2.0
+main: de.nixgutyetihafen.pommesmaker.main.Main
+api-version: 1.21
+author: Nickslp, YetiHafen
+commands:
+  setdebug:
+    description: Toggles debug messages on or off.
+    usage: /setdebug <on|off>
+    permission: pommesmaker.debug.toggle
+    permission-message: You do not have permission to use this command.
